@@ -44,6 +44,7 @@
 ;; ─────────────────────────────────────────────────────────────
 (use-package consult
   :ensure t
+  :demand t
   :bind (("C-x b"   . consult-buffer)
          ("C-c f"   . consult-find)
          ("C-c F"   . my/consult-find-nohidden)
@@ -57,7 +58,8 @@
   :custom
   (consult-ripgrep-args
    "rg --null --line-buffered --color=never --line-number --smart-case --no-heading --with-filename --search-zip --hidden")
-  (completion-in-region-function #'consult-completion-in-region)
+  (with-eval-after-load 'consult
+  (completion-in-region-function #'consult-completion-in-region))
   :config
   (defun my/consult-find-nohidden ()
     "Run `consult-find' without hidden files/dirs."
@@ -71,6 +73,7 @@
 ;; ─────────────────────────────────────────────────────────────
 (use-package embark
   :ensure t
+  :demand t
   :bind (("C-."   . embark-act)
          ("C-;"   . embark-dwim)
          ("C-h B" . embark-bindings))
@@ -84,6 +87,7 @@
 
 (use-package embark-consult
   :ensure t
+  :demand t
   :after (embark consult)
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 
@@ -118,6 +122,7 @@
 ;; corfu-terminal: makes Corfu work properly in -nw / terminal Emacs
 (use-package corfu-terminal
   :ensure t
+  :demand t
   :unless (display-graphic-p)
   :after corfu
   :config
@@ -126,6 +131,7 @@
 ;; Icons in the popup (requires a Nerd Font in your terminal)
 (use-package nerd-icons-corfu
   :ensure t
+  :demand t
   :after corfu
   :config
   (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
@@ -139,13 +145,15 @@
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
-  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
+  ;;(advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)
+  )
 
 ;; ─────────────────────────────────────────────────────────────
 ;; Eshell: fish-like inline autosuggestions + corfu popup
 ;; ─────────────────────────────────────────────────────────────
 (use-package capf-autosuggest
   :ensure t
+  :demand t
   :hook (eshell-mode . capf-autosuggest-mode))
 
 (add-hook 'eshell-mode-hook #'corfu-mode)
