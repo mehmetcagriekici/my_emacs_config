@@ -58,9 +58,9 @@
   :custom
   (consult-ripgrep-args
    "rg --null --line-buffered --color=never --line-number --smart-case --no-heading --with-filename --search-zip --hidden")
-  (with-eval-after-load 'consult
-  (completion-in-region-function #'consult-completion-in-region))
   :config
+  (with-eval-after-load 'consult
+    (setq completion-in-region-function #'consult-completion-in-region))
   (defun my/consult-find-nohidden ()
     "Run `consult-find' without hidden files/dirs."
     (interactive)

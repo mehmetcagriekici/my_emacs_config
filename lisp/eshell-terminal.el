@@ -23,8 +23,8 @@
   :config
   (unless (display-graphic-p)
     (setq term-default-bg-color nil
-	  term-default-fg-color nil
-	  tty-top-bottom-recenter nil))
+          term-default-fg-color nil
+          tty-top-bottom-recenter nil))
 
   (use-package eshell-syntax-highlighting
     :ensure t
@@ -40,20 +40,20 @@
 (defun my/eshell-set-prompt ()
   "Set a clean, colorful eshell prompt."
   (setq-local eshell-prompt-function
-	      (lambda ()
-		(concat
-		 (propertize (concat (user-login-name) "@" (system-name))
-			     'face 'font-lock-constant-face)
-		 (propertize ":" 'face 'font-lock-builtin-face)
-		 (propertize (abbreviate-file-name (eshell/pwd))
-			     'face 'font-lock-string-face)
-		 (if (= (user-uid) 0)
-		     (propertize " # " 'face 'font-lock-warning-face)
-		   (propertize " $ " 'face 'font-lock-function-name-face))))))
+              (lambda ()
+                (concat
+                 (propertize (concat (user-login-name) "@" (system-name))
+                             'face 'font-lock-constant-face)
+                 (propertize ":" 'face 'font-lock-builtin-face)
+                 (propertize (abbreviate-file-name (eshell/pwd))
+                             'face 'font-lock-string-face)
+                 (if (= (user-uid) 0)
+                     (propertize " # " 'face 'font-lock-warning-face)
+                   (propertize " $ " 'face 'font-lock-function-name-face))))))
 
 ;; ─────────────────────────────────────────────────────────────
 ;; Per-buffer mode setup
-;; ─────────────────────────────────────────────────────────────
+;; ─────────────────────────────────────────────────────��───────
 (defun my/eshell-mode-setup ()
   "Setup that runs in every Eshell buffer."
   ;; Fish-style partial-match history search
@@ -62,9 +62,9 @@
 
   ;; C-l clears the scrollback buffer
   (keymap-set eshell-mode-map "C-l"
-	      (lambda () (interactive)
-		(eshell/clear-scrollback)
-		(eshell-send-input)))
+              (lambda () (interactive)
+                (eshell/clear-scrollback)
+                (eshell-send-input)))
 
   ;; Wrap long lines
   (visual-line-mode 1)
@@ -109,17 +109,17 @@
 (defun eshell/f (&optional pattern)
   "Find files matching PATTERN using fd/fdfind."
   (let* ((bin (or (executable-find "fd") (executable-find "fdfind")))
-	 (cmd (if bin
-		  (format "%s --color=always %s" bin (or pattern ""))
-		"find . -name '*'")))
+         (cmd (if bin
+                  (format "%s --color=always %s" bin (or pattern ""))
+                "find . -name '*'")))
     (shell-command-to-string cmd)))
 
 (defun eshell/d (&optional pattern)
   "Find directories matching PATTERN using fd/fdfind."
   (let* ((bin (or (executable-find "fd") (executable-find "fdfind")))
-	 (cmd (if bin
-		  (format "%s -t d --color=always %s" bin (or pattern ""))
-		"find . -type d")))
+         (cmd (if bin
+                  (format "%s -t d --color=always %s" bin (or pattern ""))
+                "find . -type d")))
     (shell-command-to-string cmd)))
 
 (defun eshell/up (n)
@@ -134,7 +134,7 @@
   :ensure t
   :commands (vterm vterm-other-window)
   :bind (("C-c t" . vterm)
-	 ("C-c T" . vterm-other-window))
+         ("C-c T" . vterm-other-window))
   :custom
   (vterm-max-scrollback 50000)
   (vterm-timer-delay 0.01)
@@ -142,10 +142,10 @@
   :config
   (add-to-list 'recentf-exclude "\\*vterm\\*")
   (add-hook 'vterm-mode-hook
-	    (lambda ()
-	      (setq-local confirm-kill-processes nil)
-	      (display-line-numbers-mode -1)
-	      (setq-local global-hl-line-mode nil))))
+            (lambda ()
+              (setq-local confirm-kill-processes nil)
+              (display-line-numbers-mode -1)
+              (setq-local global-hl-line-mode nil))))
 
 (provide 'eshell-terminal)
 ;;; eshell-terminal.el ends here

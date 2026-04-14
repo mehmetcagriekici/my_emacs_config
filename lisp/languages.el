@@ -2,19 +2,10 @@
 
 (message "Loading modern language support (Tree-sitter preferred)...")
 
-;; ─────────────────────────────────────────────────────────────
-;; Tree-sitter: auto-install & remap classic modes → -ts- modes
-;; ─────────────────────────────────────────────────────────────
-(use-package treesit-auto
-  :ensure t
-  :custom
-  (treesit-auto-install 'prompt)        ; prompt before downloading grammars
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
-
+;; ───────────────────────────────────────��─────────────────────
 ;; Fallback manual remap — only kicks in for modes treesit-auto doesn't cover
-;; or if treesit-auto is somehow unavailable
+;; (treesit-auto is configured in treesitter.el — this avoids duplication)
+;; ─────────────────────────────────────────────────────────────
 (setq major-mode-remap-alist
       '((python-mode     . python-ts-mode)
         (yaml-mode       . yaml-ts-mode)
@@ -144,6 +135,7 @@
 ;; ─────────────────────────────────────────────────────────────
 (use-package pdf-tools
   :ensure t
+  :if (display-graphic-p)
   :magic ("%PDF" . pdf-view-mode)       ; detect by file content, not just extension
   :config
   (pdf-tools-install :no-query)         ; install silently, don't prompt

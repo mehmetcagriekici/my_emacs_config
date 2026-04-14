@@ -2,9 +2,9 @@
 
 (message "Loading basics...")
 
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 ;; Encoding: set everything to UTF-8 first, before anything else
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 (set-language-environment   "UTF-8")
 (prefer-coding-system       'utf-8)
 (set-default-coding-systems 'utf-8)
@@ -12,9 +12,19 @@
 (set-keyboard-coding-system 'utf-8)
 (setq locale-coding-system  'utf-8)
 
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
+;; WSL/Shell environment: inherit PATH and variables from shell
+;; ────────────────────────────────────────────────────────────────
+(use-package exec-path-from-shell
+  :ensure t
+  :if (or (eq system-type 'darwin)
+          (eq system-type 'gnu/linux))
+  :config
+  (exec-path-from-shell-initialize))
+
+;; ────────────────────────────────────────────────────────────────
 ;; General UI and editing behavior
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 (column-number-mode 1)
 (size-indication-mode 1)
 
@@ -34,9 +44,9 @@
 (when (fboundp 'pixel-scroll-precision-mode)
   (pixel-scroll-precision-mode 1))
 
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 ;; Line numbers: only in programming and text file modes (not term, dired, etc.)
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 (defun my/enable-line-numbers ()
   "Enable relative line numbers for navigation."
   (setq-local display-line-numbers-type 'relative)
@@ -46,9 +56,9 @@
 (add-hook 'text-mode-hook #'my/enable-line-numbers)
 (add-hook 'conf-mode-hook #'my/enable-line-numbers)
 
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 ;; Editing quality-of-life
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 
 ;; Auto-close brackets, quotes, etc.
 (electric-pair-mode 1)
@@ -71,9 +81,9 @@
 ;; Ensure files always end with a newline
 (setq require-final-newline t)
 
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ───────────────────────���────────────────────────────────────────
 ;; Persistent & useful minor modes
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 (recentf-mode 1)
 (setq recentf-max-saved-items 200)
 
@@ -85,15 +95,15 @@
 (savehist-mode 1)                            ; persist minibuffer history (vertico/consult love this)
 (setq history-length 300)
 
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 ;; Compilation & native compilation noise
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 (setq byte-compile-warnings              '(not free-vars unresolved)
       native-comp-async-report-warnings-errors nil)
 
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 ;; Backup & autosave: versioned, tucked away, never pollute project dirs
-;; ──────────────────────────────────────────────────────────────────────────────
+;; ────────────────────────────────────────────────────────────────
 (setq auto-save-file-name-transforms
       `((".*" ,(expand-file-name "auto-save/" user-emacs-directory) t)))
 

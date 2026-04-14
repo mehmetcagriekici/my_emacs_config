@@ -31,12 +31,10 @@
   (load custom-file 'noerror 'nomessage))
 
 ;; ─────────────────────────────────────────────────────────────
-;; Install all selected packages on first launch (self-healing)
+;; Refresh package contents
 ;; ─────────────────────────────────────────────────────────────
 (unless package-archive-contents
   (package-refresh-contents))
-
-(package-install-selected-packages :noconfirm)
 
 ;; Bootstrap use-package (built-in on Emacs 29, guard for safety)
 (unless (package-installed-p 'use-package)
@@ -47,6 +45,12 @@
       use-package-expand-minimally t
       use-package-compute-statistics t
       use-package-verbose nil)
+
+;; ─────────────────────────────────────────────────────────────
+;; Install all selected packages on first launch (self-healing)
+;; Now that use-package is loaded, install remaining packages
+;; ─────────────────────────────────────────────────────────────
+(package-install-selected-packages :noconfirm)
 
 ;; ─────────────────────────────────────────────────────────────
 ;; Load-path for personal modules
